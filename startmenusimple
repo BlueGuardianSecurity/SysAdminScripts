@@ -1,0 +1,19 @@
+# Define the export path
+$exportPath = "C:\Windows\StartLayout\StartLayoutAllUsers.xml"
+
+# Ensure the directory exists
+$exportDir = Split-Path -Parent $exportPath
+if (-not (Test-Path $exportDir)) {
+    New-Item -Path $exportDir -ItemType Directory -Force
+}
+
+# Export the Start layout for all users
+try {
+    Export-StartLayout -Path $exportPath -AllUsers
+    Write-Host "Start layout successfully exported for all users to: $exportPath"
+} catch {
+    Write-Error "Failed to export Start layout: $_"
+    Exit
+}
+
+Get-Content $exportPath
